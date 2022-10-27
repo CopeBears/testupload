@@ -75,8 +75,8 @@ const updateConnectStatus = async () => {
 
 async function checkChain() {
   let chainId = 0;
-  if(chain === 'rinkeby') {
-    chainId = 4;
+  if(chain === 'goerli') {
+    chainId = 5;
   } else if(chain === 'polygon') {
     chainId = 137;
   }
@@ -127,7 +127,7 @@ async function checkChain() {
 
 async function loadInfo() {
   window.info = await contract.methods.currentTokenId().call();
-  window.mintPrice = 0.01;//await contract.methods.getPrice(1).call();
+  window.mintPrice = 0.00;//await contract.methods.getPrice(1).call();
   // console.log('currentTokenId: ' + window.info);
 
   let totalSupplyOnchain = await contract.methods.totalSupply().call();
@@ -202,7 +202,7 @@ async function loadInfo() {
   }, 1000);
 
   let priceType = '';
-  if(chain === 'rinkeby') {
+  if(chain === 'goerli') {
     priceType = 'ETH';
   } else if (chain === 'polygon') {
     priceType = 'MATIC';
@@ -267,7 +267,7 @@ function setTotalPrice() {
   const totalPriceWei = window.mintPrice * mintInputValue  //BigInt(price) * BigInt(mintInputValue);
   
   let priceType = '';
-  if(chain === 'rinkeby') {
+  if(chain === 'goerli') {
     priceType = 'ETH';
   } else if (chain === 'polygon') {
     priceType = 'MATIC';
@@ -285,7 +285,7 @@ async function mint() {
   mintButton.innerHTML = spinner;
 
   const amount = parseInt(document.getElementById("mintInput").value);
-  const value = 0.01 * amount;
+  const value = 0.00 * amount;
   const publicMintActive = true; //await contract.methods.mintingActive().call();
   const presaleMintActive = true; //await contract.methods.presaleActive().call();
 
@@ -296,8 +296,8 @@ async function mint() {
         .mintToMultiple(window.address, amount.toString())
         .send({ from: window.address, value: EthToWei(value.toString()) });
       if(mintTransaction) {
-        if(chain === 'rinkeby') {
-          const url = `https://rinkeby.etherscan.io/tx/${mintTransaction.transactionHash}`;
+        if(chain === 'goerli') {
+          const url = `https://goerli.etherscan.io/tx/${mintTransaction.transactionHash}`;
           const mintedContainer = document.querySelector('.minted-container');
           const countdownContainer = document.querySelector('.countdown');
           const mintedTxnBtn = document.getElementById("mintedTxnBtn");
@@ -333,8 +333,8 @@ async function mint() {
         .presaleMint(amount, merkleJson)
         .send({ from: window.address, value: value.toString() });
       if(presaleMintTransaction) {
-        if(chain === 'rinkeby') {
-          const url = `https://rinkeby.etherscan.io/tx/${presaleMintTransaction.transactionHash}`;
+        if(chain === 'goerli') {
+          const url = `https://goerli.etherscan.io/tx/${presaleMintTransaction.transactionHash}`;
           const mintedContainer = document.querySelector('.minted-container');
           const countdownContainer = document.querySelector('.countdown');
           const mintedTxnBtn = document.getElementById("mintedTxnBtn");
